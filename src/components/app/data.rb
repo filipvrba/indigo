@@ -3,15 +3,15 @@ require "option_parser"
 def get_file
   file = OptionParser.last_arg()
 
-  if !File.exist?(file)
-    puts "A #{file} doest existing, from this a \"#{Dir.pwd()}\" location."
-    return exit()
-  end
-
   unless file
     exit()
   else
-    return file
+    if !File.exist?(file)
+      puts "A #{file} doest existing, from this a \"#{Dir.pwd()}\" location."
+      return exit()
+    else
+      return file
+    end
   end
 end
 
