@@ -4,6 +4,7 @@ require_relative "../../objects/functions/function"
 
 module Components
   class Functions < FV::BasicObject
+    attr_reader :functions
     FIND_FUNC_DONE = "find_functions_done"
     ADD_FUNCTION = "add_function"
 

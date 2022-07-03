@@ -8,8 +8,9 @@ require_relative "../components/file_script/imports.rb"
 module Scenes
   class FileScript < FV::Scene
     attr_accessor :path
-    attr_reader :data
+    attr_reader :data, :name, :functions
     OPEN_FILE_SCRIPT = "open_file_script"
+    INIT_FILE_SCR_DONE = "initialize_file_script_done"
 
     def self.find_word(row, word)
       row.index( /#{word}[ \n]/ )
@@ -25,7 +26,7 @@ module Scenes
 
     def ready
       @data = get_data(@path)
-      @id = File.basename(@path)
+      @name = File.basename(@path)
 
       unless @data
         puts "#{self} could not initialize!"
@@ -38,6 +39,7 @@ module Scenes
       add(@functions, "functions")
 
       find_all()
+      @parent.emit_signal({ type: INIT_FILE_SCR_DONE, file_script: self })
     end
 
     def find_all()
