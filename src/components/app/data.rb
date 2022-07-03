@@ -14,14 +14,3 @@ def get_file
     end
   end
 end
-
-def get_data file
-  data = Array.new
-
-  File.open(file) do |d|
-    data = d.readlines
-  end
-  data[data.length - 1] += "\n"  # Add new line to last line
-
-  return data
-end

@@ -2,13 +2,20 @@ require_relative "components/app/arguments"
 require_relative "components/app/helper"
 require_relative "components/app/data"
 
-require "scene"
+require_relative "scenes/file_script"
 
-data = get_data(get_file())
+require "scene"
 
 root = FV::Scene.new
 
-p_dev( data, @options[:is_dev])
-if @options[:is_dev] != 1
-  system("python -c << END '#{data.join}' END")
+file = Scenes::FileScript.new
+file.path = get_file()
+
+root.add(file)
+
+if @options[:is_dev] != 2
+  p_dev( file.data, @options[:is_dev])
+  if @options[:is_dev] != 1
+    system("python -c << END '#{data.join}' END")
+  end
 end
