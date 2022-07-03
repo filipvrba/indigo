@@ -27,19 +27,29 @@ module Components
       self.disconnect(Objects::Import::IMPORT_INIT_DONE, @@import_init_done_listener)
     end
 
+    def default_modules
+      add_import(IMPORTS[:i], "import #{Components::Module::MODULES[:b]}", -1)
+    end
+
+    def add_import(word, row, index_row)
+      import = Objects::Import.new
+      import.word = word
+      import.row = row
+      import.index_row = index_row
+
+      add(import)
+      import.emit_signal({ type: Objects::Import::IMPORT_INIT })
+    end
+
     def find_imports
+      default_modules()
+
       @parent.data.each_with_index do |row, i|
         imp_word = IMPORTS[:i]
         index_d = Components::Variables::get_var_index(row, imp_word)
 
         if index_d
-          import = Objects::Import.new
-          import.word = imp_word
-          import.row = row
-          import.index_row = i
-
-          add(import)
-          import.emit_signal({ type: Objects::Import::IMPORT_INIT })
+          add_import(imp_word, row, i)
         end
       end
 

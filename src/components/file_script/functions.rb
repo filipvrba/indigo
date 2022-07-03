@@ -23,10 +23,15 @@ module Components
     end
     
     def find_functions
+      filtering_words = Components::Blocks::BLOCKS.merge
+      filtering_words[:im] = Components::Imports::IMPORTS[:i]
+
       @parent.data.each_with_index do |row, i|
         @functions.each do |_, func_word|
           filter = row.index(/\b#{func_word}\b/) &&
-            Components::Blocks::BLOCKS.select { |k, v| row.include?( v ) }.empty?
+            filtering_words.select { |k, v|
+              Components::Variables::get_var_index(row, v) }.empty? &&
+            Components::Variables::get_var_index(row, func_word)
 
           if filter
             function = Objects::Function.new
@@ -35,7 +40,7 @@ module Components
             function.index_row = i
 
             add(function)
-
+            puts func_word
             break
           end
         end
