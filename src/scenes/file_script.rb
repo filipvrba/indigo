@@ -3,11 +3,13 @@ require "scene"
 require_relative "../components/file_script/blocks.rb"
 require_relative "../components/file_script/variables.rb"
 require_relative "../components/file_script/functions.rb"
+require_relative "../components/file_script/imports.rb"
 
 module Scenes
   class FileScript < FV::Scene
     attr_accessor :path
     attr_reader :data
+    OPEN_FILE_SCRIPT = "open_file_script"
 
     def self.find_word(row, word)
       row.index( /#{word}[ \n]/ )
@@ -17,6 +19,7 @@ module Scenes
       super
       @blocks = Components::Blocks.new
       @variables = Components::Variables.new
+      @imports = Components::Imports.new
       @functions = Components::Functions.new
     end
 
@@ -26,6 +29,7 @@ module Scenes
 
       add(@blocks, "blocks")
       add(@variables, "variables")
+      add(@imports, "imports")
       add(@functions, "functions")
 
       find_all()
@@ -34,6 +38,7 @@ module Scenes
     def find_all()
       @blocks.find_blocks()
       @variables.find_variables()
+      @imports.find_imports()
       @functions.find_functions()
     end
 

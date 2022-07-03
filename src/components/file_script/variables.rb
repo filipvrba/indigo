@@ -12,7 +12,7 @@ module Components
 
     FIND_VAR_DONE = "find_variables_done"
 
-    def get_var_index(row, var)
+    def self.get_var_index(row, var)
       return row.include?(var) &&
       !row.index(/['"].*?#{var}.*?['"]/) || # /['"].*?\b#{name}\b.*?['"]/
       row.index(/{.*#{var}.*}/)
@@ -21,7 +21,7 @@ module Components
     def find_variables
       @parent.data.each_with_index do |row, i|
         VARIABLES.each do |_, var_word|
-          index_d = get_var_index(row, var_word)
+          index_d = Components::Variables::get_var_index(row, var_word)
 
           if index_d
             variable = Objects::Variable.new

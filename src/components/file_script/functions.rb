@@ -23,7 +23,6 @@ module Components
     end
     
     def find_functions
-      puts @functions
       @parent.data.each_with_index do |row, i|
         @functions.each do |_, func_word|
           filter = row.index(/\b#{func_word}\b/) &&
@@ -37,7 +36,6 @@ module Components
 
             add(function)
 
-            p row
             break
           end
         end

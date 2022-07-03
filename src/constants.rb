@@ -1,0 +1,1 @@
+INDIGO_FILE_TYPE = "fv"
