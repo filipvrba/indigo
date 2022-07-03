@@ -11,6 +11,7 @@ module Scenes
     attr_reader :data, :name, :functions
     OPEN_FILE_SCRIPT = "open_file_script"
     INIT_FILE_SCR_DONE = "initialize_file_script_done"
+    CHANGE_FILE_SCRIPT = "change_file_script"
 
     def self.find_word(row, word)
       row.index( /#{word}[ \n]/ )
@@ -18,6 +19,8 @@ module Scenes
 
     def initialize
       super
+      @@change_file_script_listener = -> (signal) {change_all()}
+
       @blocks = Components::Blocks.new
       @variables = Components::Variables.new
       @imports = Components::Imports.new
@@ -33,6 +36,8 @@ module Scenes
         return
       end
 
+      get_scene(true).connect(CHANGE_FILE_SCRIPT, @@change_file_script_listener)
+
       add(@blocks, "blocks")
       add(@variables, "variables")
       add(@imports, "imports")
@@ -42,11 +47,20 @@ module Scenes
       @parent.emit_signal({ type: INIT_FILE_SCR_DONE, file_script: self })
     end
 
+    def free
+      super.free
+      get_scene(true).disconnect(CHANGE_FILE_SCRIPT, @@change_file_script_listener)
+    end
+
     def find_all()
       @blocks.find_blocks()
       @variables.find_variables()
       @imports.find_imports()
       @functions.find_functions()
+    end
+
+    def change_all()
+      @blocks.change_blocks()
     end
 
     def get_data(file)

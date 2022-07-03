@@ -3,7 +3,7 @@ require "basic_object"
 module Objects
   class Block < FV::BasicObject
     attr_accessor :word, :row, :index_row, :index_dim, :parent_class
-    attr_reader :index_block_end
+    attr_reader :index_block_end, :rows
     BLOCK_INIT = "init_block"
     BLOCK_INIT_DONE = "init_block_done"
 

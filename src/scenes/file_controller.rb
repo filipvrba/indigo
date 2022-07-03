@@ -16,7 +16,8 @@ module Scenes
     end
 
     def ready_find()
-      
+      # TODO: Change an values from an file scripts.
+      get_scene(true).emit_signal({ type: Scenes::FileScript::CHANGE_FILE_SCRIPT })
     end
 
     def free

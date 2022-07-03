@@ -9,7 +9,7 @@ require "scene"
 root = FV::Scene.new
 
 file_controller = Scenes::FileController.new
-root.add(file_controller)
+root.add(file_controller, "file_controller")
 file_controller.add_file_script(get_file())
 
 # if @options[:is_dev] != 2

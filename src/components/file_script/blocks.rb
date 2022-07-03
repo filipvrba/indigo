@@ -1,6 +1,9 @@
 require "basic_object"
 
 require_relative "../../objects/blocks/block"
+require_relative "../../objects/blocks/block"
+require_relative "../manipulation"
+require_relative "../../constants"
 
 module Components
   class Blocks < FV::BasicObject
@@ -58,6 +61,32 @@ module Components
       self.emit_signal({type: FIND_BLOCKS_DONE})
     end
 
+    def change_blocks()
+      @classes.each do |block|
+        row = block.rows[block.index_row]
+        block.rows[block.index_row] = Manipulation::d_class(row, block.get_name)
+      end
+
+      @defs.each do |block|
+        row = block.rows[block.index_row]
+
+        if block.parent_class
+          block.rows[block.index_row] = Manipulation::d_parent_def(row, block.get_name)
+        else
+          block.rows[block.index_row] = Manipulation::d_def(row, block.get_name)
+        end
+      end
+
+      @ifs.each do |block|
+        block.rows.each_with_index do |r, i|
+          block.rows[i] = Manipulation::d_if(block.rows, i)
+        end
+      end
+
+      # TODO: remove end block
+    end
+
+    private
     def init_block_done(block)
       def emit(block)
         @parent.emit_signal({
@@ -82,7 +111,9 @@ module Components
     def check_defs_exist_class()
       @defs.each do |d|
         @classes.each do |c|
-          if d.index_row < c.index_block_end
+          if d.index_row < c.index_block_end &&
+             c.index_dim + DIMENSION == d.index_dim 
+
             d.parent_class = c
             break
           end
