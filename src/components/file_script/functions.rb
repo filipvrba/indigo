@@ -40,7 +40,6 @@ module Components
             function.index_row = i
 
             add(function)
-            puts func_word
             break
           end
         end

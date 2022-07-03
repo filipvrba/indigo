@@ -27,6 +27,11 @@ module Scenes
       @data = get_data(@path)
       @id = File.basename(@path)
 
+      unless @data
+        puts "#{self} could not initialize!"
+        return
+      end
+
       add(@blocks, "blocks")
       add(@variables, "variables")
       add(@imports, "imports")
@@ -45,6 +50,11 @@ module Scenes
     def get_data(file)
       data = Array.new
   
+      unless File.exist?(file)
+        puts "Warning: This a file '#{file}' no exist."
+        return nil
+      end
+
       File.open(file) do |d|
         data = d.readlines
       end
