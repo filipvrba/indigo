@@ -37,20 +37,49 @@ module Components
       self.d_def( row, name )
     end
 
-    def self.d_if(rows, index)
-      r_u = rows[index]
-      r_d = rows[index + 1]
-      row = r_u
-  
-      if r_d
-        r_u_e = !CONTROLS.select { |k, v| r_u.include?( v ) }.empty?
-        r_d_e = !CONTROLS.select { |k, v| r_d.include?( v ) }.empty?
-        if r_u_e and r_d_e
-          row += "".ljust(2) + PYTHON_WORDS[:p] + "\n"
+    def self.d_if(block, index, row_add, &callback)
+      words = CONTROLS.merge({en: Components::Blocks::BLOCKS_END[:e]})
+
+      index_down = d_index_down(block, index, words)
+      row = block.rows[index]
+      callback.call(row)
+      
+      if index == index_down
+        callback.call(nil)
+        if row_add.gsub("\n", "").strip.empty?
+          row = "".ljust(block.index_dim + DIMENSION) + PYTHON_WORDS[:p] + "\n" + row
         end
       end
-  
+
       return row
+    end
+
+    def self.d_end(block, index, row_add, &callback)
+      words = CONTROLS.merge(Components::Blocks::BLOCKS)
+
+      row = block.rows[index]
+      callback.call(row)
+
+      if index == block.index_block_end
+        callback.call(nil)
+        if row_add.gsub("\n", "").sub(Components::Blocks::BLOCKS_END[:e], "").strip.empty?
+          row = "".ljust(block.index_dim + DIMENSION) + PYTHON_WORDS[:p] + "\n"
+        else
+          row.sub!(Components::Blocks::BLOCKS_END[:e], "")
+        end
+      end
+      
+      return row
+    end
+
+    def self.d_index_down(block, index, words)
+      for i in index..block.index_block_end
+        row = block.rows[i]
+        if !words.select{|k, w| row.include?(w)}.empty?
+          return i
+        end
+      end
+      return -1
     end
 
     def self.d_inheritance(row)

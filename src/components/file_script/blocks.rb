@@ -62,11 +62,21 @@ module Components
     end
 
     def change_blocks()
+      change_classes()
+      change_defs()
+      change_ifs()
+      change_ends()
+    end
+
+    private
+    def change_classes()
       @classes.each do |block|
         row = block.rows[block.index_row]
         block.rows[block.index_row] = Manipulation::d_class(row, block.get_name)
       end
+    end
 
+    def change_defs()
       @defs.each do |block|
         row = block.rows[block.index_row]
 
@@ -76,17 +86,40 @@ module Components
           block.rows[block.index_row] = Manipulation::d_def(row, block.get_name)
         end
       end
-
-      @ifs.each do |block|
-        block.rows.each_with_index do |r, i|
-          block.rows[i] = Manipulation::d_if(block.rows, i)
-        end
-      end
-
-      # TODO: remove end block
     end
 
-    private
+    def change_ifs()
+      @ifs.each do |block|
+        row_add = ""
+
+        for i in (block.index_row + 1)..block.index_block_end
+          block.rows[i] = Manipulation::d_if(block, i, row_add) do |row|
+            if row
+              row_add += row
+            else
+              row_add = ""
+            end
+          end
+        end
+      end
+    end
+
+    def change_ends()
+      @children.each do |block|
+        row_add = ""
+
+        for i in (block.index_row + 1)..block.index_block_end
+          block.rows[i] = Manipulation::d_end(block, i, row_add) do |row|
+            if row
+              row_add += row
+            else
+              row_add = ""
+            end
+          end
+        end
+      end
+    end
+
     def init_block_done(block)
       def emit(block)
         @parent.emit_signal({
