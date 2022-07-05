@@ -14,6 +14,7 @@ module Components
 
     def self.get_var_index(row, var)
       return row.include?(var) &&
+      !row.index(/#.*?#{var}.*/) &&
       !row.index(/['"].*?#{var}.*?['"]/) || # /['"].*?\b#{name}\b.*?['"]/
       row.index(/{.*#{var}.*}/)
     end
