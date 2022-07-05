@@ -74,5 +74,15 @@ module Components
         })
       end
     end
+
+    def change_imports()
+      @children.each do |import|
+        if import.index_row > -1
+          if !import.path.empty?
+            import.row = "from #{import.path} import #{import.name}\n"
+          end
+        end
+      end
+    end
   end
 end

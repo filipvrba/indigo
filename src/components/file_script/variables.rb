@@ -1,6 +1,7 @@
 require "basic_object"
 
 require_relative "../../objects/variables/variable"
+require_relative "../../constants"
 
 module Components
   class Variables < FV::BasicObject
@@ -36,6 +37,19 @@ module Components
       end
 
       self.emit_signal({ type: FIND_VAR_DONE })
+    end
+
+    def change_variables
+      @children.each do |variable|
+        case variable.word
+        when VARIABLES[:n]
+          variable.row.sub!(VARIABLES[:n], PYTHON_WORDS[:n])
+        when VARIABLES[:f]
+          variable.row.sub!(VARIABLES[:f], PYTHON_WORDS[:f])
+        when VARIABLES[:t]
+          variable.row.sub!(VARIABLES[:t], PYTHON_WORDS[:t])
+        end
+      end
     end
   end
 end

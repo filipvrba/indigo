@@ -49,6 +49,12 @@ module Components
       self.emit_signal({ type: FIND_FUNC_DONE })
     end
 
+    def change_functions
+      @children.each do |function|
+        function.row = Manipulation::d_other(function.row , function.word)
+      end
+    end
+
     def add_function(name, name_module)
       @functions["#{name_module}.#{name}"] = name
     end

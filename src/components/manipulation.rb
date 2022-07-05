@@ -72,6 +72,10 @@ module Components
       return row
     end
 
+    def self.d_other(row, name)
+      self.add_brackets( row, name )
+    end
+
     def self.d_index_down(block, index, words)
       for i in index..block.index_block_end
         row = block.rows[i]

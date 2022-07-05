@@ -61,6 +61,9 @@ module Scenes
 
     def change_all()
       @blocks.change_blocks()
+      @variables.change_variables()
+      @imports.change_imports()
+      @functions.change_functions()
     end
 
     def get_data(file)

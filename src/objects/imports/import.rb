@@ -3,7 +3,7 @@ require "basic_object"
 module Objects
   class Import < FV::BasicObject
     attr_accessor :word, :row, :index_row
-    attr_reader :name_module, :path
+    attr_reader :name_module, :path, :name
     IMPORT_INIT = "init_import"
     IMPORT_INIT_DONE = "init_import_done"
     
@@ -12,6 +12,8 @@ module Objects
       @@init_import_listener = -> (signal) {init_import()}
 
       @name_module = nil
+      @path = ""
+      @name = ""
     end
 
     def ready
@@ -35,12 +37,23 @@ module Objects
         end
       else
         @name_module = @row.split[1]
+        @path = get_path()
+        @name = @name_module.split("/").last
       end
 
       @parent.emit_signal({ type: IMPORT_INIT_DONE, import: self })
     end
 
     private
+    def get_path()
+      arr = @name_module.split("/")
+      arr.take(arr.length - 1).join(".")
+    end
+
+    # def get_name()
+    #   @name_module.split("/").last
+    # end
+
     def get_name(index)
       @row.split[index].sub(".", "")
     end
