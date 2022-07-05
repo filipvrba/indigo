@@ -65,7 +65,7 @@ module Components
         if row_add.gsub("\n", "").sub(Components::Blocks::BLOCKS_END[:e], "").strip.empty?
           row = "".ljust(block.index_dim + DIMENSION) + PYTHON_WORDS[:p] + "\n"
         else
-          row.sub!(Components::Blocks::BLOCKS_END[:e], "")
+          row = row.sub(Components::Blocks::BLOCKS_END[:e], "")
         end
       end
       
@@ -96,8 +96,10 @@ module Components
     end
 
     def self.add_brackets(row, name, value = "\n", ignore: ignore = false)
-      if row.index(/[()]/) and !ignore
+      if row.index(/#{name}\(\)/) and !ignore  # /[()]/
         return row
+      elsif row.include?("#{name}#{HANDLER}")
+        return row.sub("#{name}#{HANDLER}", name)
       end
 
       s_i = row.index(name) + name.length

@@ -46,7 +46,7 @@ module Components
           if index_d
             block = Objects::Block.new
             block.word = block_word
-            block.row = row
+            block.row = String.new(row)
             block.index_row = i
             block.index_dim = index_d
             
@@ -66,6 +66,14 @@ module Components
       change_defs()
       change_ifs()
       change_ends()
+    end
+
+    def owerwrite_blocks()
+      @children.each do |block|
+        for i in block.index_row..block.index_block_end
+          @parent.data[i] = block.rows[i]
+        end
+      end
     end
 
     private

@@ -34,7 +34,7 @@ module Components
     def add_import(word, row, index_row)
       import = Objects::Import.new
       import.word = word
-      import.row = row
+      import.row = String.new(row)
       import.index_row = index_row
 
       add(import)
@@ -62,7 +62,7 @@ module Components
         funcs_hash.each do |key, value|
           @parent.emit_signal({
             type:  Components::Functions::ADD_FUNCTION,
-            name:  key,
+            name:  import.index_row == -1 ? key : "#{value}.#{key}",
             module: value
           })
         end
@@ -81,6 +81,14 @@ module Components
           if !import.path.empty?
             import.row = "from #{import.path} import #{import.name}\n"
           end
+        end
+      end
+    end
+
+    def overwrite_imports()
+      @children.each do |import|
+        if import.index_row > -1
+          @parent.data[import.index_row] = import.row
         end
       end
     end

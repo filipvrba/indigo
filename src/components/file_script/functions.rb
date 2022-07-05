@@ -1,6 +1,7 @@
 require "basic_object"
 
 require_relative "../../objects/functions/function"
+require_relative "../manipulation"
 
 module Components
   class Functions < FV::BasicObject
@@ -37,11 +38,10 @@ module Components
           if filter
             function = Objects::Function.new
             function.word = func_word
-            function.row = row
+            function.row = String.new(row)
             function.index_row = i
 
             add(function)
-            break
           end
         end
       end
@@ -51,8 +51,13 @@ module Components
 
     def change_functions
       @children.each do |function|
-        function.row = Manipulation::d_other(function.row , function.word)
+        function.row = Manipulation::d_other(@parent.data[function.index_row] , function.word)
+        overwrite_function(function)
       end
+    end
+
+    def overwrite_function(function)
+      @parent.data[function.index_row] = function.row
     end
 
     def add_function(name, name_module)

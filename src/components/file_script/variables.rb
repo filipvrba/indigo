@@ -2,6 +2,7 @@ require "basic_object"
 
 require_relative "../../objects/variables/variable"
 require_relative "../../constants"
+require_relative "../manipulation"
 
 module Components
   class Variables < FV::BasicObject
@@ -28,7 +29,7 @@ module Components
           if index_d
             variable = Objects::Variable.new
             variable.word = var_word
-            variable.row = row
+            variable.row = String.new(row)
             variable.index_row = i
 
             add(variable)
@@ -41,14 +42,24 @@ module Components
 
     def change_variables
       @children.each do |variable|
+        change_row = -> (symbol) {
+          @parent.data[variable.index_row].sub(VARIABLES[symbol], PYTHON_WORDS[symbol])
+        }
+
         case variable.word
         when VARIABLES[:n]
-          variable.row.sub!(VARIABLES[:n], PYTHON_WORDS[:n])
+          variable.row = change_row.(:n)
         when VARIABLES[:f]
-          variable.row.sub!(VARIABLES[:f], PYTHON_WORDS[:f])
+          variable.row = change_row.(:f)
         when VARIABLES[:t]
-          variable.row.sub!(VARIABLES[:t], PYTHON_WORDS[:t])
+          variable.row = change_row.(:t)
         end
+      end
+    end
+
+    def owerwrite_variables
+      @children.each do |variable|
+        @parent.data[variable.index_row] = variable.row
       end
     end
   end

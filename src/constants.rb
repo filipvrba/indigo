@@ -15,3 +15,4 @@ CONTROLS = {
   :e => "else",
   :ei => "elif"
 }
+HANDLER = "|"

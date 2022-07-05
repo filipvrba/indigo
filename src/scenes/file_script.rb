@@ -36,7 +36,7 @@ module Scenes
         return
       end
 
-      get_scene(true).connect(CHANGE_FILE_SCRIPT, @@change_file_script_listener)
+      @parent.connect(CHANGE_FILE_SCRIPT, @@change_file_script_listener)
 
       add(@blocks, "blocks")
       add(@variables, "variables")
@@ -49,7 +49,7 @@ module Scenes
 
     def free
       super.free
-      get_scene(true).disconnect(CHANGE_FILE_SCRIPT, @@change_file_script_listener)
+      @parent.disconnect(CHANGE_FILE_SCRIPT, @@change_file_script_listener)
     end
 
     def find_all()
@@ -61,9 +61,18 @@ module Scenes
 
     def change_all()
       @blocks.change_blocks()
-      @variables.change_variables()
+      @blocks.owerwrite_blocks()
+
       @imports.change_imports()
+      @imports.overwrite_imports()
+
       @functions.change_functions()
+      # @functions.overwrite_functions()
+
+      @variables.change_variables()
+      @variables.owerwrite_variables()
+
+      puts @data
     end
 
     def get_data(file)
