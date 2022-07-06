@@ -34,7 +34,8 @@ module Scenes
       @output.create_files
       @parent.emit_signal({
         type: READY_ALL,
-        path: @output.get_abs_path( find_children(0) )
+        path: @output.get_abs_path( find_children(0) ),
+        data_files: get_data_files
       })
     end
 
@@ -59,6 +60,14 @@ module Scenes
 
     def get_file_scripts
       return @children.select{|child| child.id.is_a?(Integer)}
+    end
+
+    def get_data_files
+      data_files = Hash.new
+      get_file_scripts.each do |file_script|
+        data_files[file_script.name] = file_script.data
+      end
+      return data_files
     end
 
     def init_file_scr_done(file_script)

@@ -67,8 +67,6 @@ module Scenes
       @imports.change_imports()
       @functions.change_functions()
       @variables.change_variables()
-
-      puts @data
     end
 
     def get_data(file)
