@@ -12,6 +12,7 @@ module Components
       :d => "def",
       :c => "class",
       :i => "if",
+      :w => "while"
     }
     BLOCKS_END = {
       :e => "end"

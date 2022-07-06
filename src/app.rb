@@ -14,7 +14,10 @@ root.connect(Scenes::FileController::READY_ALL,
     if @options[:is_dev] != 2
       p_dev( signal[:data_files], @options[:is_dev])
       if @options[:is_dev] != 1
-        system("python #{path}")
+        begin
+          system("python #{path}")
+        rescue Interrupt => e
+        end
       end
     end
 
