@@ -1,6 +1,6 @@
 require "option_parser"
 
-@options = { is_dev: -1 }
+@options = { is_dev: -1, save: false }
 
 OptionParser.parse do |parser|
   parser.banner( "Usage: fv [options] [program file]\n\nOptions:" )
@@ -19,5 +19,8 @@ OptionParser.parse do |parser|
     else
       @options[:is_dev] = 0
     end
+  end
+  parser.on( "-s", "--save", "Save all new convert an files." ) do
+    @options[:save] = true
   end
 end

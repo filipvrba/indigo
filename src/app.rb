@@ -18,11 +18,9 @@ root.connect(Scenes::FileController::READY_ALL,
       end
     end
 
-    root.emit_signal({ type: Scenes::FileController::READY_FREE })
+    root.emit_signal({ type: Scenes::FileController::READY_FREE, has_save: @options[:save] })
 })
 
 file_controller = Scenes::FileController.new
 root.add(file_controller, "file_controller")
 file_controller.add_file_script(get_file())
-
-# TODO: Create new command for an save files.

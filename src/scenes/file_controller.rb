@@ -12,7 +12,7 @@ module Scenes
       super
       @@open_file_script_listener = -> (signal) {add_file_script(signal[:path])}
       @@init_file_scr_done_listener = -> (signal) {init_file_scr_done(signal[:file_script])}
-      @@ready_free_listener = -> (signal) {ready_free()}
+      @@ready_free_listener = -> (signal) {ready_free(signal[:has_save])}
 
       @output = Components::Output.new
     end
@@ -39,8 +39,10 @@ module Scenes
       })
     end
 
-    def ready_free
-      @output.delete_files
+    def ready_free(has_save)
+      unless has_save
+        @output.delete_files
+      end
       free()
     end
 
