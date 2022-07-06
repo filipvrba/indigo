@@ -23,8 +23,8 @@ module Components
     end
 
     def free
-      super.free
       self.disconnect(Objects::Import::IMPORT_INIT_DONE, @@import_init_done_listener)
+      super
     end
 
     def default_modules
@@ -80,16 +80,15 @@ module Components
         if import.index_row > -1
           if !import.path.empty?
             import.row = "from #{import.path} import #{import.name}\n"
+            overwrite_import(import)
           end
         end
       end
     end
 
-    def overwrite_imports()
-      @children.each do |import|
-        if import.index_row > -1
-          @parent.data[import.index_row] = import.row
-        end
+    def overwrite_import(import)
+      if import.index_row > -1
+        @parent.data[import.index_row] = import.row
       end
     end
   end

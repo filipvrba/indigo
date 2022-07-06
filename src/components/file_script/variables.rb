@@ -54,13 +54,13 @@ module Components
         when VARIABLES[:t]
           variable.row = change_row.(:t)
         end
+
+        owerwrite_variable(variable)
       end
     end
 
-    def owerwrite_variables
-      @children.each do |variable|
-        @parent.data[variable.index_row] = variable.row
-      end
+    def owerwrite_variable(variable)
+      @parent.data[variable.index_row] = variable.row
     end
   end
 end

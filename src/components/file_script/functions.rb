@@ -20,8 +20,8 @@ module Components
     end
 
     def free
-      super.free
       @parent.disconnect(ADD_FUNCTION, @@add_function_listener)
+      super
     end
     
     def find_functions

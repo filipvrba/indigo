@@ -21,8 +21,8 @@ module Objects
     end
 
     def free
-      super.free
       self.disconnect(IMPORT_INIT, @@init_import_listener)
+      super
     end
 
     def init_import

@@ -34,8 +34,8 @@ module Components
     end
 
     def free
-      super.free
       self.disconnect(Objects::Block::BLOCK_INIT_DONE, @@block_init_done_listener)
+      super
     end
 
     def find_blocks()

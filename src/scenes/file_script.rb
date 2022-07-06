@@ -4,11 +4,13 @@ require_relative "../components/file_script/blocks.rb"
 require_relative "../components/file_script/variables.rb"
 require_relative "../components/file_script/functions.rb"
 require_relative "../components/file_script/imports.rb"
+require_relative "../constants"
 
 module Scenes
   class FileScript < FV::Scene
     attr_accessor :path
     attr_reader :data, :name, :functions
+
     OPEN_FILE_SCRIPT = "open_file_script"
     INIT_FILE_SCR_DONE = "initialize_file_script_done"
     CHANGE_FILE_SCRIPT = "change_file_script"
@@ -29,14 +31,13 @@ module Scenes
 
     def ready
       @data = get_data(@path)
-      @name = File.basename(@path)
-
       unless @data
         puts "#{self} could not initialize!"
         return
       end
 
       @parent.connect(CHANGE_FILE_SCRIPT, @@change_file_script_listener)
+      @name = File.basename(@path)
 
       add(@blocks, "blocks")
       add(@variables, "variables")
@@ -48,8 +49,8 @@ module Scenes
     end
 
     def free
-      super.free
       @parent.disconnect(CHANGE_FILE_SCRIPT, @@change_file_script_listener)
+      super
     end
 
     def find_all()
@@ -64,13 +65,8 @@ module Scenes
       @blocks.owerwrite_blocks()
 
       @imports.change_imports()
-      @imports.overwrite_imports()
-
       @functions.change_functions()
-      # @functions.overwrite_functions()
-
       @variables.change_variables()
-      @variables.owerwrite_variables()
 
       puts @data
     end

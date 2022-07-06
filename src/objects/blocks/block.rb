@@ -19,8 +19,8 @@ module Objects
     end
 
     def free
-      super.free
       self.disconnect(BLOCK_INIT, @@init_block_listener)
+      super
     end
 
     def init_block(data)
