@@ -22,7 +22,10 @@ module Scenes
 
     def initialize
       super
-      @@change_file_script_listener = -> (signal) {change_all()}
+      @@change_file_script_listener = -> (signal) {
+        change_all()
+        add_main()
+      }
 
       @blocks = Components::Blocks.new
       @variables = Components::Variables.new
@@ -68,8 +71,6 @@ module Scenes
       @imports.change_imports()
       @functions.change_functions()
       @variables.change_variables()
-
-      add_main()
     end
 
     def get_data(file)

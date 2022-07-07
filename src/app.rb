@@ -21,7 +21,8 @@ root.connect(Scenes::FileController::READY_ALL,
       end
     end
 
-    root.emit_signal({ type: Scenes::FileController::READY_FREE, has_save: @options[:save] })
+    root.emit_signal({ type: Scenes::FileController::READY_FREE,
+      has_save: @options[:save][:has_save], dir: @options[:save][:dir] })
 })
 
 file_controller = Scenes::FileController.new

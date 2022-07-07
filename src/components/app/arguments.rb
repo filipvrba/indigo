@@ -1,6 +1,12 @@
 require "option_parser"
 
-@options = { is_dev: -1, save: false }
+@options = {
+  is_dev: -1,
+  save: {
+    has_save: false,
+    dir: nil
+  },
+}
 
 OptionParser.parse do |parser|
   parser.banner( "Usage: fv [options] [program file]\n\nOptions:" )
@@ -20,7 +26,8 @@ OptionParser.parse do |parser|
       @options[:is_dev] = 0
     end
   end
-  parser.on( "-s", "--save", "Save all new convert an files." ) do
-    @options[:save] = true
+  parser.on( "-s DIR", "--save DIR", "Save all new convert an files." ) do |dir|
+    @options[:save][:has_save] = true
+    @options[:save][:dir] = File.realdirpath( dir, Dir.pwd() )
   end
 end

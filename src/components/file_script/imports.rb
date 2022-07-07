@@ -69,7 +69,8 @@ module Components
           })
         end
       else
-        module_abs_path = "#{Dir.pwd()}/#{import.name_module}.#{INDIGO_FILE_TYPE}"
+        # module_abs_path = "#{Dir.pwd()}/#{import.name_module}.#{INDIGO_FILE_TYPE}"
+        module_abs_path = "#{import.name_module}.#{INDIGO_FILE_TYPE}"
         get_scene(true).emit_signal({
           type: Scenes::FileScript::OPEN_FILE_SCRIPT,
           path: module_abs_path

@@ -12,7 +12,10 @@ module Scenes
       super
       @@open_file_script_listener = -> (signal) {add_file_script(signal[:path])}
       @@init_file_scr_done_listener = -> (signal) {init_file_scr_done(signal[:file_script])}
-      @@ready_free_listener = -> (signal) {ready_free(signal[:has_save])}
+      @@ready_free_listener = -> (signal) {
+        has_remove = copy_files(signal[:has_save], signal[:dir])
+        ready_free(has_remove)
+      }
 
       @output = Components::Output.new
     end
@@ -34,13 +37,21 @@ module Scenes
       @output.create_files
       @parent.emit_signal({
         type: READY_ALL,
-        path: @output.get_abs_path( find_children(0) ),
+        path: @output.get_relative_path( find_children(0) ),
         data_files: get_data_files
       })
     end
 
-    def ready_free(has_save)
-      unless has_save
+    def copy_files(has_save, dir)
+      if has_save
+        return @output.copy_files(dir)
+      else
+        return true
+      end
+    end
+
+    def ready_free(has_remove)
+      if has_remove
         @output.delete_files
       end
       free()
