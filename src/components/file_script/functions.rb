@@ -8,6 +8,9 @@ module Components
     attr_reader :functions
     FIND_FUNC_DONE = "find_functions_done"
     ADD_FUNCTION = "add_function"
+    DEFAULT_FUNCTIONS = {
+      m: "main"
+    }
 
     def initialize
       super

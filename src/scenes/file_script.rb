@@ -5,6 +5,7 @@ require_relative "../components/file_script/variables.rb"
 require_relative "../components/file_script/functions.rb"
 require_relative "../components/file_script/imports.rb"
 require_relative "../constants"
+require_relative "../components/manipulation"
 
 module Scenes
   class FileScript < FV::Scene
@@ -67,6 +68,8 @@ module Scenes
       @imports.change_imports()
       @functions.change_functions()
       @variables.change_variables()
+
+      add_main()
     end
 
     def get_data(file)
@@ -83,6 +86,16 @@ module Scenes
       data[data.length - 1] += "\n"  # Add new line to last line
   
       return data
+    end
+
+    def add_main()
+      name = Components::Functions::DEFAULT_FUNCTIONS[:m].concat("():")
+      @data.each do |r|
+        if r.include?( name )
+          @data[@data.length - 1] += Components::Manipulation::d_main()
+          break
+        end
+      end
     end
   end
 end

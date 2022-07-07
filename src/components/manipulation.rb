@@ -11,6 +11,11 @@ module Components
   
       row = self.add_brackets( row, name, sym )
       row = self.d_inheritance(row)
+
+      if !row.index(/:$/)  # Existing a colon
+        row = row.sub(sym, ":#{sym}")
+      end
+
       row
     end
 
@@ -74,6 +79,17 @@ module Components
 
     def self.d_other(row, name)
       self.add_brackets( row, name )
+    end
+
+    def self.d_import(import)
+      import_name = import.rename ?
+        "#{import.name} #{Components::Imports::IMPORTS[:as]} #{import.rename}"
+        : import.name
+      "from #{import.path} import #{import_name}\n"
+    end
+
+    def self.d_main()
+      "\nif __name__ == \"__main__\":\n  main()\n"
     end
 
     def self.d_index_down(block, index, words)

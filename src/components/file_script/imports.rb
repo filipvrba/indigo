@@ -4,11 +4,13 @@ require_relative "../../constants"
 require_relative "../../objects/imports/import"
 require_relative "../imports/module"
 require_relative "../../scenes/file_script"
+require_relative "../manipulation"
 
 module Components
   class Imports < FV::BasicObject
     IMPORTS = {
-      :i => "import"
+      :i => "import",
+      :as => "as",
     }
 
     FIND_IMP_DONE = "find_imports_done"
@@ -79,7 +81,7 @@ module Components
       @children.each do |import|
         if import.index_row > -1
           if !import.path.empty?
-            import.row = "from #{import.path} import #{import.name}\n"
+            import.row = Manipulation::d_import(import)
             overwrite_import(import)
           end
         end
