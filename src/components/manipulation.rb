@@ -60,8 +60,6 @@ module Components
     end
 
     def self.d_end(block, index, row_add, &callback)
-      words = CONTROLS.merge(Components::Blocks::BLOCKS)
-
       row = block.rows[index]
       callback.call(row)
 
@@ -125,7 +123,11 @@ module Components
       if row.index(/\;/)
         row = row.sub(";", "),")
       else
-        row = row.sub(value, ")#{value}")
+        if row.index(/\:$/)
+          row = row.sub(":", "):")
+        else
+          row = row.sub(value, ")#{value}")
+        end
       end
       return row
     end

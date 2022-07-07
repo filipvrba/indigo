@@ -9,7 +9,8 @@ module Components
     }
     VALIED = {
       b: "builtin_function_or_method",
-      f: "function"
+      f: "function",
+      t: "type"
     }
 
     def self.get_module_data(name)

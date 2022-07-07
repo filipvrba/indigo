@@ -11,8 +11,11 @@ module Components
     BLOCKS = {
       :d => "def",
       :c => "class",
+    }
+    BLOCKS_STATEMENTS = {
       :i => "if",
-      :w => "while"
+      :w => "while",
+      :f => "for",
     }
     BLOCKS_END = {
       :e => "end"
@@ -41,7 +44,10 @@ module Components
 
     def find_blocks()
       @parent.data.each_with_index do |row, i|
-        Components::Blocks::BLOCKS.each do |_, block_word|
+        block_words = Components::Blocks::BLOCKS.merge(
+          Components::Blocks::BLOCKS_STATEMENTS
+        )
+        block_words.each do |_, block_word|
           index_d = row.index(/\b#{block_word}/) 
 
           if index_d
@@ -145,7 +151,7 @@ module Components
       when BLOCKS[:d]
         @defs.append block
         emit(block)
-      when BLOCKS[:i]
+      when BLOCKS_STATEMENTS[:i]
         @ifs.append block
       end
     end
