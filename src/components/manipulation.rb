@@ -118,9 +118,15 @@ module Components
         return row.sub("#{name}#{HANDLER}", name)
       end
 
-      s_i = row.index(name) + name.length
+      s_i = row.index(/\b#{name}\b/) + name.length
       row[s_i] = "(#{row[s_i]}"
-      row = row.sub(value, ")#{value}")
+
+      # End bracket
+      if row.index(/\;/)
+        row = row.sub(";", "),")
+      else
+        row = row.sub(value, ")#{value}")
+      end
       return row
     end
   end
