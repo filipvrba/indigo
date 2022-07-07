@@ -9,7 +9,9 @@ module Components
     FIND_FUNC_DONE = "find_functions_done"
     ADD_FUNCTION = "add_function"
     DEFAULT_FUNCTIONS = {
-      m: "main"
+      m: "main",
+      p: "print",
+      l: "len",
     }
 
     def initialize
@@ -27,6 +29,12 @@ module Components
       super
     end
     
+    def default_functions
+      Components::Functions::DEFAULT_FUNCTIONS.each do |key, value|
+        add_function(value, "DEFAULT_FUNCTIONS")
+      end
+    end
+
     def find_functions
       filtering_words = Components::Blocks::BLOCKS.merge
       filtering_words[:im] = Components::Imports::IMPORTS[:i]
@@ -49,6 +57,7 @@ module Components
         end
       end
 
+      default_functions()
       self.emit_signal({ type: FIND_FUNC_DONE })
     end
 

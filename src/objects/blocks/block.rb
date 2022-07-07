@@ -29,7 +29,8 @@ module Objects
       unless @index_block_end
         puts "Warning - Not find index for a block end.\n" +
           "This #{self.to_s} of #{@index_row} index."
-        return
+        # return
+        exit
       end
 
       data.each_with_index do |row, i|

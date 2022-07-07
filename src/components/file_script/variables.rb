@@ -18,7 +18,7 @@ module Components
       return row.include?(var) &&
       !row.index(/#.*?#{var}.*/) &&
       !row.index(/['"].*?#{var}.*?['"]/) || # /['"].*?\b#{name}\b.*?['"]/
-      row.index(/{.*#{var}.*}/)
+      row.index(/{.*#{var}.*}/)  # TODO: not working in "{} {}",must by fix.
     end
 
     def find_variables

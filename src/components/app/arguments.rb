@@ -1,4 +1,5 @@
 require "option_parser"
+require_relative "../imports/module"
 
 @options = {
   is_dev: -1,
@@ -29,5 +30,13 @@ OptionParser.parse do |parser|
   parser.on( "-s DIR", "--save DIR", "Save all new convert an files." ) do |dir|
     @options[:save][:has_save] = true
     @options[:save][:dir] = File.realdirpath( dir, Dir.pwd() )
+  end
+  parser.on( "-f MODULE", "--funcs MODULE", "Show all functions from a module." ) do |mod|
+    if mod
+      puts Components::Module::get_module_data(mod)
+    else
+      puts "Error: No module name for show an all functions."
+    end
+    exit
   end
 end

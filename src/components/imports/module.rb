@@ -5,7 +5,7 @@ module Components
   class Module
     FUNCS = "lib/funcs.py"
     MODULES = {
-      b: "builtins"
+      # b: "builtins"
     }
     VALIED = {
       b: "builtin_function_or_method",

@@ -93,7 +93,7 @@ module Components
     def self.d_index_down(block, index, words)
       for i in index..block.index_block_end
         row = block.rows[i]
-        if !words.select{|k, w| row.include?(w)}.empty?
+        if !words.select{|k, w| row.index(/\d#{w}/)}.empty?  # row.include?(w)
           return i
         end
       end
@@ -121,7 +121,7 @@ module Components
 
       # End bracket
       if row.index(/\;/)
-        row = row.sub(";", "),")
+        row = row.sub(";", ")")
       else
         if row.index(/\:$/)
           row = row.sub(":", "):")

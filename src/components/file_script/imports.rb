@@ -30,7 +30,9 @@ module Components
     end
 
     def default_modules
-      add_import(IMPORTS[:i], "import #{Components::Module::MODULES[:b]}", -1)
+      Components::Module::MODULES.each do |key, value|
+        add_import(IMPORTS[:i], "import #{value}", -1)
+      end
     end
 
     def add_import(word, row, index_row)
@@ -69,7 +71,6 @@ module Components
           })
         end
       else
-        # module_abs_path = "#{Dir.pwd()}/#{import.name_module}.#{INDIGO_FILE_TYPE}"
         module_abs_path = "#{import.name_module}.#{INDIGO_FILE_TYPE}"
         get_scene(true).emit_signal({
           type: Scenes::FileScript::OPEN_FILE_SCRIPT,
