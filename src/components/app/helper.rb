@@ -9,7 +9,7 @@ def p_dev( data_files, is_dev )
   end
 
   python_length = p_header("Python")
-  data_files.each do |name, data|
+  data_files.reverse_each do |name, data|
     top_down = -> () {"+#{"-" * (name.length)}+"}
 
     puts top_down.()
