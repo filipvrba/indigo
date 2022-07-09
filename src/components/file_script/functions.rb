@@ -12,6 +12,7 @@ module Components
       m: "main",
       p: "print",
       l: "len",
+      s: "super",
     }
 
     def initialize
@@ -38,6 +39,8 @@ module Components
     def find_functions
       filtering_words = Components::Blocks::BLOCKS.merge
       filtering_words[:im] = Components::Imports::IMPORTS[:i]
+      
+      default_functions()
 
       @parent.data.each_with_index do |row, i|
         @functions.each do |_, func_word|
@@ -57,7 +60,6 @@ module Components
         end
       end
 
-      default_functions()
       self.emit_signal({ type: FIND_FUNC_DONE })
     end
 

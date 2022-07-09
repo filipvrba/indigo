@@ -16,6 +16,7 @@ module Components
 
     def self.index_with_comment(row, var)
       filtering = row.scan(/{[^{}]+}/).select { |c| c.include?(var) }
+
       unless filtering.empty?
         f_code = filtering.select { |c| c.include?(var) }.last
         i_dimenstion = row.index(f_code)

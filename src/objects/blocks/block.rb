@@ -27,22 +27,21 @@ module Objects
       @index_block_end = find_block_end data.drop(@index_row)
 
       unless @index_block_end
-        puts "Warning - Not find index for a block end.\n" +
+        puts "Warning - Not find index #{@index_dim} for a block end.\n" +
           "This #{self.to_s} of #{@index_row} index."
-        # return
         exit
-      end
-
-      data.each_with_index do |row, i|
-        if i < @index_row
-          data[i] = ""
-        elsif i > @index_block_end
-          data[i] = ""
+      else
+        data.each_with_index do |row, i|
+          if i < @index_row
+            data[i] = ""
+          elsif i > @index_block_end
+            data[i] = ""
+          end
         end
+  
+        @rows = data
+        @parent.emit_signal({type: Objects::Block::BLOCK_INIT_DONE, block: self })
       end
-
-      @rows = data
-      @parent.emit_signal({type: Objects::Block::BLOCK_INIT_DONE, block: self })
     end
 
     def find_block_end(data)

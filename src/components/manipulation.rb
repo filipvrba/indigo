@@ -76,7 +76,8 @@ module Components
     end
 
     def self.d_other(row, name)
-      self.add_brackets( row, name )
+      row = self.add_brackets( row, name )
+      self.d_special_def( row, name )
     end
 
     def self.d_import(import)
