@@ -12,7 +12,7 @@ module Via
       @root.add(@in_out, "IO")
     end
 
-    def render_via(symbol)
+    def render(symbol)
       path = File.absolute_path("#{VIEWS_PATH}/#{symbol.to_s}.via", __FILE__)
       result = nil
 
