@@ -1,0 +1,6 @@
+[submodule "lib/via"]
+	path = lib/via
+	url = git@github.com:filipvrba/via.git
+[submodule "lib/json-parser"]
+	path = lib/json-parser
+	url = git@github.com:filipvrba/json-parser.git

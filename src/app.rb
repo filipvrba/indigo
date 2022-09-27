@@ -1,30 +1,15 @@
-require_relative "components/app/arguments"
-require_relative "components/app/helper"
-require_relative "components/app/data"
+require_relative "application/indigo"
 
-require_relative "scenes/file_controller"
+class App < Indigo::Application
 
-require "scene"
+  def initialize
+    super
 
-root = FV::Scene.new
-root.connect(Scenes::FileController::READY_ALL,
-  lambda = -> (signal) {
-    path = signal[:path]
-    
-    if @options[:is_dev] != 2
-      p_dev( signal[:data_files], @options[:is_dev])
-      if @options[:is_dev] != 1
-        begin
-          system("python #{path}")
-        rescue Interrupt => e
-        end
-      end
-    end
+    @name_app = "Indigo"
+  end
 
-    root.emit_signal({ type: Scenes::FileController::READY_FREE,
-      has_save: @options[:save][:has_save], dir: @options[:save][:dir] })
-})
-
-file_controller = Scenes::FileController.new
-root.add(file_controller, "file_controller")
-file_controller.add_file_script(get_file())
+  get "/" do
+    @message = @db.parse :message
+    ren(:root)
+  end
+end
