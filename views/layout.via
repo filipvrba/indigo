@@ -1,13 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- This meta they are dynamic loaded -->
+    <meta name="keywords" content="<%= @meta[:keywords] %>"> 
+    <meta name="description" content="<%= @meta[:description] %>">
+    <meta name="author" content="<%= @meta[:author] %>">
+    <meta property="og:image" content="<%= @meta[:og_image] %>" />
+    <meta property="og:image:alt" content="<%= @meta[:og_image_alt] %>" />
+    <meta property="og:site_name" content="<%= @meta[:og_site_name] %>" />
+    <meta property="og:type" content="<%= @meta[:og_type] %>" />
+    <meta property="og:title" content="<%= @meta[:og_title] %>" />
+    <meta property="og:url" content="<%= @meta[:og_url] %>" />
+    <meta property="og:description" content="<%= @meta[:og_description] %>" />
 
-    <link rel="stylesheet" href="/stylesheets/application.css">
+    <!-- CSS only -->
+    <link rel="stylesheet" type="text/css" href="/css/application.css">
 
-    <title>= @name_app</title>
+    <!-- ICO only -->
+    <link rel="shortcut icon" href="/ico/favicon.ico" type="image/x-icon" />
+
+    <title>= @title</title>
   </head>
   <body>
     = yield
