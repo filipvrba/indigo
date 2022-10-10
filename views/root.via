@@ -1,5 +1,9 @@
-5.times do |i|
-  <p>
-    = "#{i}x #{@message}"
-  </p>
-end
+<header>
+</header>
+
+<main>
+  = yield
+</main>
+
+<footer>    
+</footer>
